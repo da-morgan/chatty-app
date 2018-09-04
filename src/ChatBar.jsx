@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 class ChatBar extends Component {
 
-  onSubmit = (event) => {
+  onSubmit(event){
     event.preventDefault()
 
     let username = event.target.elements.chatbarUsername.value;
@@ -15,7 +15,7 @@ class ChatBar extends Component {
   render() {
     return (
         <footer className="chatbar">
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={(event) => this.onSubmit(event)}>
             <input name="chatbarUsername" className="chatbar-username" placeholder={this.props.currentUser} />
             <input name="chatbarMessage" className="chatbar-message" placeholder="Type a message and hit ENTER"/>
             <input type="submit" />
