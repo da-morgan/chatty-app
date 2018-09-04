@@ -1,18 +1,25 @@
 import React, {Component} from 'react';
 
 class ChatBar extends Component {
-  constructor(props){
-    super()
+
+  onSubmit = (event) => {
+    event.preventDefault()
+
+    let username = event.target.elements.chatbarUsername.value;
+    let message = event.target.elements.chatbarMessage.value;
+
+    this.props.addMessage(username, message);
 
   }
-
-  changeableUsername
 
   render() {
     return (
         <footer className="chatbar">
-            <input className="chatbar-username" placeholder={this.props.currentUser} />
-            <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
+          <form onSubmit={this.onSubmit}>
+            <input name="chatbarUsername" className="chatbar-username" placeholder={this.props.currentUser} />
+            <input name="chatbarMessage" className="chatbar-message" placeholder="Type a message and hit ENTER"/>
+            <input type="submit" />
+          </form>
         </footer>
     );
   }
