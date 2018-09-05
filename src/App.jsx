@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NavBar from "./NavBar.jsx"
 import ChatBar from "./ChatBar.jsx"
 import MessageList from "./MessageList.jsx"
+const uuid = require('uuid/v4');
 
 
 
@@ -24,6 +25,12 @@ class App extends Component {
     this.socket.onopen = (event) => {
       console.log("Connection Made")
     };
+
+    this.socket.onmessage = function (event) {
+      console.log(event.data);
+      const eventObject = JSON.parse(event.data)
+
+    }
 
     console.log("componentDidMount <App />");
     setTimeout(() => {
