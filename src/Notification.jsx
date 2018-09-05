@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
-const Notification = ({notification}) => {
+const Notification = ({message}) => {
     return (
-        <div className="message system">{notification.content}</div>
+        <div className="message system">{message.message}</div>
     );
 }
 

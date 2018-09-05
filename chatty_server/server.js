@@ -24,7 +24,6 @@ wss.on('connection', (ws) => {
     const parsedData = JSON.parse(data);
     let dataWithId = parsedData;
     dataWithId.id = uuid();
-    dataWithId.type = "incomingMessage";
     stringifiedDataWithId = JSON.stringify(dataWithId);
 
     wss.broadcast = function broadcast(data) {

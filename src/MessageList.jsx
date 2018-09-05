@@ -10,7 +10,8 @@ class MessageList extends Component {
         if(message.type === "incomingMessage"){
             return <Message key={message.id} message={message}/>
         } else {
-            return <Notification key={message.id} notification={message}/>
+            console.log(message);
+            return <Notification key={message.id} message={message}/>
         }
     })
 

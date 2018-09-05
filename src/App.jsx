@@ -61,17 +61,18 @@ class App extends Component {
     // }, 3000);
   }
 
-  addMessage(username, message) {
+  addMessage(username, message, type) {
     const newMessage = {
       id: Math.random(),
-      type: "incomingMessage",
+      type: type,
       message: message,
       username: username
     }
 
     this.socket.send(JSON.stringify({
       username: username,
-      message: message
+      message: message,
+      type: type
     }))
 
   }
