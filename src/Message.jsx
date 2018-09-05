@@ -4,7 +4,7 @@ const Message = ({message}) => {
     return (
         <div className="message">
             <span className="message-username">{message.username}</span>
-            <span className="message-content">{message.content}</span>
+            <span className="message-content">{message.message}</span>
         </div>
     );
 }

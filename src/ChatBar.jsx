@@ -11,7 +11,6 @@ class ChatBar extends Component {
     this.props.addMessage(username, message);
 
   }
-
   render() {
     return (
         <footer className="chatbar">
