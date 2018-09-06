@@ -29,7 +29,7 @@ class App extends Component {
     };
 
     this.socket.onmessage =  (event) => {
-      console.log(event.data);
+      console.log("ONMESSGE DATA", event.data);
       
       const eventObject = JSON.parse(event.data)
 
