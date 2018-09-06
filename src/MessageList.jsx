@@ -5,7 +5,7 @@ import Notification from "./Notification.jsx"
 class MessageList extends Component {
 
   render() {
-    
+    /* Checks to see if incoming message is a notification or incoming message. */
     const messages = this.props.messages.map(message => {
         if(message.type === "incomingMessage"){
             return <Message key={message.id} message={message}/>

@@ -13,7 +13,7 @@ class App extends Component {
     this.addMessage = this.addMessage.bind(this);
 
     this.state = {
-      currentUser: "Dave",
+      currentUser: "Anonymous",
       messages:[],
       receivedMessages: [],
       userCount: 0
@@ -21,20 +21,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-
+    //Create new WebSocket
     this.socket = new WebSocket("ws://localhost:3001")
-
     this.socket.onopen = (event) => {
       console.log("Connection Made")
     };
 
+    //What to do when client gets a message from server
     this.socket.onmessage =  (event) => {
-      console.log("ONMESSGE DATA", event.data);
-      
       const eventObject = JSON.parse(event.data)
 
+      //If it's a number, update current users online count
       if(typeof eventObject === "number"){
         this.setState({userCount: eventObject})
+      //Otherwise, it's a message! Go from there.
       } else {
         const newReceivedMessage = {
           id: eventObject.id,
@@ -42,7 +42,10 @@ class App extends Component {
           username: eventObject.username,
           message: eventObject.message
         }
-  
+
+        /* Updating received messages array in state.
+        ** Update the current user to be the one that submitted the message.
+        */ 
         const old = this.state.receivedMessages;
         const newReceivedMessages = [...old, newReceivedMessage]
         this.setState({
@@ -50,29 +53,11 @@ class App extends Component {
           currentUser: newReceivedMessage.username
         })
       }
-
     }
-
-    // console.log("componentDidMount <App />");
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 10, username: "Michelle", message: "Hello there!", type: "incomingMessage"};
-    //   const messages = this.state.receivedMessages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages})
-    // }, 3000);
   }
 
+  //Function to send JSON object to server.
   addMessage(username, message, type) {
-    const newMessage = {
-      id: Math.random(),
-      type: type,
-      message: message,
-      username: username
-    }
-
     this.socket.send(JSON.stringify({
       username: username,
       message: message,
@@ -81,6 +66,7 @@ class App extends Component {
 
   }
 
+  //Content to be rendered with necessary parameters from State.
   render() {
     return (
       <div>

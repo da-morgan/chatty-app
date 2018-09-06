@@ -15,21 +15,23 @@ class ChatBar extends Component {
     this.submitMessage = this.submitMessage.bind(this)
   }
 
+  //Tracks the changes to the username and updates state.
   onUserChange(event) {
     this.setState({
       username: event.target.value
     });
   }
 
+  //When has changed username and leaves the field sends update username to server.
   onBlur(event){
     if(event.target.value !== this.state.currentUser){
       this.submitUsername(event.target.value)
     } else {
-      console.log("Default Prevented")
       event.preventDefault()
     }
   }
 
+  //When user submites message with Enter key, sends to server.
   onKeyUp(event){
     if(event.keyCode === 13){
       this.submitMessage(event)
@@ -38,8 +40,9 @@ class ChatBar extends Component {
     }
   }
 
+  //Calls addMessage function and sends info with type: notification
+  //Also updates the user in the notification sent to be the new this.state.currentUser
   submitUsername(newName){
-    event.preventDefault()
     let type = "notification";
     this.props.addMessage(
       this.props.currentUser, 
@@ -49,6 +52,7 @@ class ChatBar extends Component {
     this.setState({currentUser: newName})
   }
 
+  //Calls addMessage function and sends info with type: message
   submitMessage(event){
     let type = "incomingMessage"
     let message = event.target.value;
@@ -56,7 +60,7 @@ class ChatBar extends Component {
     this.props.addMessage(this.state.currentUser, message, type);
     event.target.value = ''
   }
-  //onSubmit={(event) => this.onSubmitMessage(event)
+
 
   render() {
     return (
