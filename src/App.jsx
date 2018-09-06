@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       currentUser: "Dave",
       messages:[],
-      receivedMessages: []
+      receivedMessages: [],
+      userCount: 0
     }
   }
 
@@ -29,23 +30,26 @@ class App extends Component {
 
     this.socket.onmessage =  (event) => {
       console.log(event.data);
+      
       const eventObject = JSON.parse(event.data)
 
-      const newReceivedMessage = {
-        id: eventObject.id,
-        type: eventObject.type,
-        username: eventObject.username,
-        message: eventObject.message
+      if(typeof eventObject === "number"){
+        this.setState({userCount: eventObject})
+      } else {
+        const newReceivedMessage = {
+          id: eventObject.id,
+          type: eventObject.type,
+          username: eventObject.username,
+          message: eventObject.message
+        }
+  
+        const old = this.state.receivedMessages;
+        const newReceivedMessages = [...old, newReceivedMessage]
+        this.setState({
+          receivedMessages: newReceivedMessages,
+          currentUser: newReceivedMessage.username
+        })
       }
-
-      const old = this.state.receivedMessages;
-      const newReceivedMessages = [...old, newReceivedMessage]
-      this.setState({
-        receivedMessages: newReceivedMessages,
-        currentUser: newReceivedMessage.username
-      })
-
-      console.log(this.state.currentUser)
 
     }
 
@@ -80,7 +84,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar numUsers={this.state.userCount}/>
         <MessageList key={this.state.receivedMessages.id} messages={this.state.receivedMessages}/>
         <ChatBar currentUser={this.state.currentUser} addMessage={this.addMessage}/>
       </div>

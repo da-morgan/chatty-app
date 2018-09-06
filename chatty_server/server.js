@@ -17,13 +17,21 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
+
+  wss.clients.forEach(function each(client) {
+        console.log("SIZE",wss.clients.size);
+        client.send(JSON.stringify(wss.clients.size));
+  });
 
   ws.on('message', function incoming(data) {
     const parsedData = JSON.parse(data);
     let dataWithId = parsedData;
     dataWithId.id = uuid();
+    dataWithId.userCount;
+    console.log(dataWithId.userCount);
     stringifiedDataWithId = JSON.stringify(dataWithId);
 
     wss.broadcast = function broadcast(data) {
@@ -35,9 +43,13 @@ wss.on('connection', (ws) => {
     };
 
     wss.broadcast(stringifiedDataWithId);
-
   });
 
-   ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    wss.clients.forEach(function each(client) {
+        client.send(JSON.stringify(wss.clients.size));
+    });
+  });
 
 });
