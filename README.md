@@ -21,6 +21,6 @@ open http://localhost:3000
 
 ### Screenshots
 
-!["Screenshot of empty homescreen"](URL)
+!["Screenshot of empty homescreen"](https://github.com/da-morgan/chatty-app/blob/master/docs/Empty%20ChattyApp.png?raw=true)
 
-!["Screenshot of users chatting"](URL)
+!["Screenshot of users chatting"](https://github.com/da-morgan/chatty-app/blob/master/docs/UsersChatting.png?raw=true)
