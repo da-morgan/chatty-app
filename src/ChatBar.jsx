@@ -8,12 +8,14 @@ class ChatBar extends Component {
     this.state = {
       currentUser: this.props.currentUser
     }
-    this.onChange = this.onChange.bind(this);
+    this.onUserChange = this.onUserChange.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.submitUsername = this.submitUsername.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
+    this.submitMessage = this.submitMessage.bind(this)
   }
 
-  onChange(event) {
+  onUserChange(event) {
     this.setState({
       username: event.target.value
     });
@@ -24,6 +26,14 @@ class ChatBar extends Component {
       this.submitUsername(event.target.value)
     } else {
       console.log("Default Prevented")
+      event.preventDefault()
+    }
+  }
+
+  onKeyUp(event){
+    if(event.keyCode === 13){
+      this.submitMessage(event)
+    } else {
       event.preventDefault()
     }
   }
@@ -39,21 +49,20 @@ class ChatBar extends Component {
     this.setState({currentUser: newName})
   }
 
-  onSubmitMessage(event){
-    event.preventDefault()
+  submitMessage(event){
     let type = "incomingMessage"
-    let message = event.target.elements.chatbarMessage.value;
+    let message = event.target.value;
 
     this.props.addMessage(this.state.currentUser, message, type);
-    event.target.elements.chatbarMessage.value = ''
+    event.target.value = ''
   }
   //onSubmit={(event) => this.onSubmitMessage(event)
 
   render() {
     return (
         <footer className="chatbar">
-          <input onBlur={this.onBlur} onChange={ this.onC } name="chatbarUsername" className="chatbar-username" defaultValue={this.props.currentUser} />
-          <input name="chatbarMessage" className="chatbar-message" placeholder="Type a message and hit ENTER"/>
+          <input onBlur={this.onBlur} onUserChange={ this.onUserChange } name="chatbarUsername" className="chatbar-username" defaultValue={this.props.currentUser} />
+          <input onKeyUp={this.onKeyUp} name="chatbarMessage" className="chatbar-message" placeholder="Type a message and hit ENTER"/>
         </footer>
     );
   }
